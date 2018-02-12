@@ -7,44 +7,50 @@
 		//else
 			//put into underscores in right position
 
-var word = "cars";
-
-var fword = ["_", "_", "_", "_"];
-
+var word = "peanuts".split("");
+var workingWord = [];
 var graveyard = [];
 
+word.forEach(function(value){
+	workingWord.push("_");
+});
+
+
+
 document.addEventListener("keyup", function(event){
-	letter = event.key;
+	var letter = event.key.toLowerCase();
 
 	var inWord = false;
-	for(var i = 0; i < word.length; i++){
-		if(letter === word[i]){
-			fword[i] = letter;
+	word.forEach(function(value, index){
+		if(letter === value){
+			workingWord[index] = value;
 			inWord = true;
 		}
-	}
+	});
 
+	var inGrave = false;
 	if(!inWord){
-		graveyard.forEach(function(index){
-			if(letter === index){}
-			else {
-				graveyard.push(letter);
+		graveyard.forEach(function(value){
+			if(letter === value){
+				inGrave = true;
 			}
 		});
 	}
 
-	hidden = "";
-	for(var i = 0; i < fword.length; i++) {
-		hidden += fword[i] + " ";
+	if(!inGrave && !inWord && letter.length === 1){
+		graveyard.push(letter);
 	}
 
-	var grave = "";
-	for(var i = 0; i < graveyard.length; i++) {
-		grave += graveyard + " ";
-	}
+	gameHTML = "";
+	workingWord.forEach(function(value){
+		gameHTML += value + " ";
+	});
 
+	graveHTML = "";
+	graveyard.forEach(function(value){
+		graveHTML += value + " ";
+	});
 
-
-	document.querySelector("#game").innerHTML = hidden;
-	document.querySelector("#grave").innerHTML=  graveyard;
-})
+	document.querySelector("#game").innerHTML = "<p>" + gameHTML + "</p>";
+	document.querySelector("#grave").innerHTML = "<p>" + graveHTML + "</p>";
+});
