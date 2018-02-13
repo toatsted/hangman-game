@@ -1,12 +1,3 @@
-//picks random word and displays underscores acording to length of random word
-
-//when a person presses a key
-	//loop through word to try to find letter
-		//if not in word
-			//put in graveyard
-		//else
-			//put into underscores in right position
-
 var word = "peanuts".split("");
 var workingWord = [];
 var graveyard = [];
@@ -39,6 +30,7 @@ document.addEventListener("keyup", function(event){
 
 	if(!inGrave && !inWord && letter.length === 1){
 		graveyard.push(letter);
+		lives--;
 	}
 
 	gameHTML = "";
@@ -51,6 +43,6 @@ document.addEventListener("keyup", function(event){
 		graveHTML += value + " ";
 	});
 
-	document.querySelector("#game").innerHTML = "<p>" + gameHTML + "</p>";
-	document.querySelector("#grave").innerHTML = "<p>" + graveHTML + "</p>";
+	document.querySelector("#game").innerHTML = gameHTML;
+	document.querySelector("#grave").innerHTML = graveHTML;
 });
