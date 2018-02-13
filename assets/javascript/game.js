@@ -11,13 +11,14 @@ var states = [
 	"Virgina", "Washington", "West Virgina", "Wisconsin", "Wyoming"
 ];
 
-var word = "New Hampshire".toLowerCase().split("");
-// var word = states[Math.floor(Math.random()*50)].toLowerCase().split("");
+// var word = "New Hampshire".toLowerCase().split("");
+var word = states[Math.floor(Math.random()*50)].toLowerCase().split("");
 
 var workingWord = [];
 var graveyard = [];
 var space;
 var spaceIndex;
+var lives = 5;
 
 word.forEach(function(value, index){
 	console.log(value);
@@ -50,6 +51,7 @@ document.addEventListener("keyup", function(event){
 
 	if(!inGrave && !inWord && letter.length === 1){
 		graveyard.push(letter);
+		lives--;
 	}
 
 	gameHTML = "";
@@ -68,4 +70,5 @@ document.addEventListener("keyup", function(event){
 
 	document.querySelector("#game").innerHTML = gameHTML;
 	document.querySelector("#grave").innerHTML = graveHTML;
+	document.querySelector("#lives").innerHTML = "lives: " + lives;
 });
