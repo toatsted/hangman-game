@@ -1,12 +1,33 @@
-var word = "peanuts".split("");
+var states = [
+	"Alabama", "Alaska", "Arizona", "Arkansas", "California",
+	"Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
+	"Hawaii", "Idaho", "Illinois", "Indiana", "Iowa",
+	"Kansas", "Kentucky", "Lousisiana", "Maine", "Maryland",
+	"Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri",
+	"Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey",
+	"New Mexico", "New York", "North Carolina", "North Dakota", "Ohio",
+	"Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolia",
+	"South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
+	"Virgina", "Washington", "West Virgina", "Wisconsin", "Wyoming"
+]
+
+var word = states[Math.floor(Math.random()*50)].toLowerCase().split("");
+
 var workingWord = [];
 var graveyard = [];
+var space;
+var spaceIndex;
 
-word.forEach(function(value){
-	workingWord.push("_");
+word.forEach(function(value, index){
+	console.log(value);
+	if(value === " "){
+		space = true;
+		spaceIndex = index;
+	}
+	else{
+		workingWord.push("_");
+	}
 });
-
-
 
 document.addEventListener("keyup", function(event){
 	var letter = event.key.toLowerCase();
@@ -30,7 +51,6 @@ document.addEventListener("keyup", function(event){
 
 	if(!inGrave && !inWord && letter.length === 1){
 		graveyard.push(letter);
-		lives--;
 	}
 
 	gameHTML = "";
