@@ -16,14 +16,12 @@ var word = states[Math.floor(Math.random()*50)].toLowerCase().split("");
 
 var workingWord = [];
 var graveyard = [];
-var space;
 var spaceIndex;
 var lives = 5;
 
 word.forEach(function(value, index){
 	console.log(value);
 	if(value === " "){
-		space = true;
 		spaceIndex = index;
 	}	
 	workingWord.push("_");
