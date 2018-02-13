@@ -6,12 +6,13 @@ var states = [
 	"Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri",
 	"Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey",
 	"New Mexico", "New York", "North Carolina", "North Dakota", "Ohio",
-	"Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolia",
+	"Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina",
 	"South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
 	"Virgina", "Washington", "West Virgina", "Wisconsin", "Wyoming"
-]
+];
 
-var word = states[Math.floor(Math.random()*50)].toLowerCase().split("");
+var word = "New Hampshire".toLowerCase().split("");
+// var word = states[Math.floor(Math.random()*50)].toLowerCase().split("");
 
 var workingWord = [];
 var graveyard = [];
@@ -23,10 +24,8 @@ word.forEach(function(value, index){
 	if(value === " "){
 		space = true;
 		spaceIndex = index;
-	}
-	else{
-		workingWord.push("_");
-	}
+	}	
+	workingWord.push("_");
 });
 
 document.addEventListener("keyup", function(event){
@@ -54,8 +53,12 @@ document.addEventListener("keyup", function(event){
 	}
 
 	gameHTML = "";
-	workingWord.forEach(function(value){
-		gameHTML += value + " ";
+	workingWord.forEach(function(value, index){
+		if(index === spaceIndex){
+			gameHTML += "- ";
+		}else{
+			gameHTML += value + " ";
+		}
 	});
 
 	graveHTML = "";
