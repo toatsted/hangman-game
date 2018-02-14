@@ -1,72 +1,104 @@
-var states = [
-	"Alabama", "Alaska", "Arizona", "Arkansas", "California",
-	"Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
-	"Hawaii", "Idaho", "Illinois", "Indiana", "Iowa",
-	"Kansas", "Kentucky", "Lousisiana", "Maine", "Maryland",
-	"Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri",
-	"Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey",
-	"New Mexico", "New York", "North Carolina", "North Dakota", "Ohio",
-	"Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina",
-	"South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
-	"Virgina", "Washington", "West Virgina", "Wisconsin", "Wyoming"
-];
+$(document).ready(function(){
+	var states = [
+		"Alabama", "Alaska", "Arizona", "Arkansas", "California",
+		"Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
+		"Hawaii", "Idaho", "Illinois", "Indiana", "Iowa",
+		"Kansas", "Kentucky", "Lousisiana", "Maine", "Maryland",
+		"Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri",
+		"Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey",
+		"New Mexico", "New York", "North Carolina", "North Dakota", "Ohio",
+		"Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina",
+		"South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
+		"Virgina", "Washington", "West Virgina", "Wisconsin", "Wyoming"
+	];
 
-// var word = "New Hampshire".toLowerCase().split("");
-var word = states[Math.floor(Math.random()*50)].toLowerCase().split("");
+	var lives;
+	var word;
+	var workingWord;
+	var graveyard;
+	var spaceIndex;
 
-var workingWord = [];
-var graveyard = [];
-var spaceIndex;
-var lives = 5;
+	reset();
 
-word.forEach(function(value, index){
-	console.log(value);
-	if(value === " "){
-		spaceIndex = index;
-	}	
-	workingWord.push("_");
-});
+	function reset(){
+		lives = 5;
+		word = states[Math.floor(Math.random()*50)].toLowerCase().split("");
+		workingWord = [];
+		graveyard = [];
+		spaceIndex = null;
 
-document.addEventListener("keyup", function(event){
-	var letter = event.key.toLowerCase();
+		word.forEach(function(value, index){
+			console.log(value);
+			if(value === " "){
+				spaceIndex = index;
+			}	
+			workingWord.push("_");
+		});
 
-	var inWord = false;
-	word.forEach(function(value, index){
-		if(letter === value){
-			workingWord[index] = value;
-			inWord = true;
-		}
-	});
-
-	var inGrave = false;
-	if(!inWord){
-		graveyard.forEach(function(value){
-			if(letter === value){
-				inGrave = true;
+		var gameHTML = "";
+		workingWord.forEach(function(value, index){
+			if(index === spaceIndex){
+				gameHTML += "- ";
+			}else{
+				gameHTML += value + " ";
 			}
 		});
+
+		document.querySelector("#game").innerHTML = gameHTML;
+		document.querySelector("#grave").innerHTML = "";
+		document.querySelector("#lives").innerHTML = "lives: " + lives;
 	}
 
-	if(!inGrave && !inWord && letter.length === 1){
-		graveyard.push(letter);
-		lives--;
-	}
 
-	gameHTML = "";
-	workingWord.forEach(function(value, index){
-		if(index === spaceIndex){
-			gameHTML += "- ";
+
+	
+
+	document.addEventListener("keyup", function(event){
+		if(lives < 1){
+			reset();
 		}else{
-			gameHTML += value + " ";
+
+			var letter = event.key.toLowerCase();
+
+			var inWord = false;
+			word.forEach(function(value, index){
+				if(letter === value){
+					workingWord[index] = value;
+					inWord = true;
+				}
+			});
+
+			var inGrave = false;
+			if(!inWord){
+				graveyard.forEach(function(value){
+					if(letter === value){
+						inGrave = true;
+					}
+				});
+			}
+
+			if(!inGrave && !inWord && letter.length === 1){
+				graveyard.push(letter);
+				lives--;
+			}
+
+			gameHTML = "";
+			workingWord.forEach(function(value, index){
+				if(index === spaceIndex){
+					gameHTML += "- ";
+				}else{
+					gameHTML += value + " ";
+				}
+			});
+
+			graveHTML = "";
+			graveyard.forEach(function(value){
+				graveHTML += value + " ";
+			});
+
+			document.querySelector("#game").innerHTML = gameHTML;
+			document.querySelector("#grave").innerHTML = graveHTML;
+			document.querySelector("#lives").innerHTML = "lives: " + lives;
 		}
 	});
-
-	graveHTML = "";
-	graveyard.forEach(function(value){
-		graveHTML += value + " ";
-	});
-
-	document.querySelector("#game").innerHTML = gameHTML;
-	document.querySelector("#grave").innerHTML = graveHTML;
-	document.querySelector("#lives").innerHTML = "lives: " + lives;
 });
