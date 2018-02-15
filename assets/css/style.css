@@ -1,7 +1,6 @@
 p {
 	text-align: center;
 	margin: 20px 0;
-
 	font-family: "Source Code Pro", sans-serif;
 }
 
@@ -20,5 +19,6 @@ h1 {
 }
 
 body {
-	background-color: #59A;
+	background-color: #5599AA;
+	padding: 50px;
 }

@@ -44,9 +44,9 @@ $(document).ready(function(){
 			}
 		});
 
-		document.querySelector("#game").innerHTML = gameHTML;
-		document.querySelector("#grave").innerHTML = "";
-		document.querySelector("#lives").innerHTML = "lives: " + lives;
+		$("#game").text(gameHTML);
+		$("#grave").text("");
+		$("#lives").text("lives: " + lives);
 	}
 
 
@@ -54,10 +54,9 @@ $(document).ready(function(){
 	
 
 	document.addEventListener("keyup", function(event){
-		if(lives < 1){
+		if(lives === 0){			
 			reset();
 		}else{
-
 			var letter = event.key.toLowerCase();
 
 			var inWord = false;
@@ -80,6 +79,9 @@ $(document).ready(function(){
 			if(!inGrave && !inWord && letter.length === 1){
 				graveyard.push(letter);
 				lives--;
+				if(lives === 0){
+					$("#lives").text(word.join(""));
+				}
 			}
 
 			gameHTML = "";
@@ -96,9 +98,11 @@ $(document).ready(function(){
 				graveHTML += value + " ";
 			});
 
-			document.querySelector("#game").innerHTML = gameHTML;
-			document.querySelector("#grave").innerHTML = graveHTML;
-			document.querySelector("#lives").innerHTML = "lives: " + lives;
+			$("#game").text(gameHTML);
+			$("#grave").text(graveHTML);
+			if(lives !== 0){
+				$("#lives").text("lives: " + lives);
+			}
 		}
 	});
 });
