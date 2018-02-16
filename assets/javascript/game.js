@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	var states = [
+	let states = [
 		"Alabama", "Alaska", "Arizona", "Arkansas", "California",
 		"Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
 		"Hawaii", "Idaho", "Illinois", "Indiana", "Iowa",
@@ -12,11 +12,12 @@ $(document).ready(function(){
 		"Virgina", "Washington", "West Virgina", "Wisconsin", "Wyoming"
 	];
 
-	var lives;
-	var word;
-	var workingWord;
-	var graveyard;
-	var spaceIndex;
+	let lives;
+	let word;
+	let workingWord;
+	let graveyard;
+	let spaceIndex;
+	let wins = 0;
 
 	reset();
 
@@ -35,7 +36,7 @@ $(document).ready(function(){
 			workingWord.push("_");
 		});
 
-		var gameHTML = "";
+		let gameHTML = "";
 		workingWord.forEach(function(value, index){
 			if(index === spaceIndex){
 				gameHTML += "- ";
@@ -50,30 +51,54 @@ $(document).ready(function(){
 	}
 
 
+	function letterInWord(letter){
+		let inWord = false;
+		let isDone = true;
+		word.forEach(function(value, index){
+			if(letter === value){
+				workingWord[index] = value;
+				inWord = true;
+			}
+			workingWord.forEach(function(value, index){
+					if(value === "_" && !(index === spaceIndex)){
+						isDone = false;
+					}
+				});
+		});
 
+		return [inWord, isDone];
+	}
+
+	function isInGrave(letter, inWord, isDone){
+		let inGrave = false;
+		if(!inWord){
+			isDone = false;
+			graveyard.forEach(function(value){
+				if(letter === value){
+					inGrave = true;
+				}
+			});
+		}
+
+		return inGrave;
+	}
 	
 
 	document.addEventListener("keyup", function(event){
 		if(lives === 0){			
 			reset();
 		}else{
-			var letter = event.key.toLowerCase();
+			let letter = event.key.toLowerCase();
 
-			var inWord = false;
-			word.forEach(function(value, index){
-				if(letter === value){
-					workingWord[index] = value;
-					inWord = true;
-				}
-			});
+			let inWordArr = letterInWord(letter);
+			let inWord = inWordArr[0];
+			let isDone = inWordArr[1];
 
-			var inGrave = false;
-			if(!inWord){
-				graveyard.forEach(function(value){
-					if(letter === value){
-						inGrave = true;
-					}
-				});
+			let inGrave = isInGrave(letter, inWord, isDone);
+
+			if(isDone){
+				wins++;
+				reset();
 			}
 
 			if(!inGrave && !inWord && letter.length === 1){
@@ -103,6 +128,7 @@ $(document).ready(function(){
 			if(lives !== 0){
 				$("#lives").text("lives: " + lives);
 			}
+			$("#wins").text("wins: " + wins);
 		}
 	});
 });
